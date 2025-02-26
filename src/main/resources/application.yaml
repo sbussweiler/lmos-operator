@@ -38,6 +38,30 @@ logging:
           operator:
             OperatorApplicationKt: WARN
 
+wot:
+  servient:
+    websocket:
+      server:
+        enabled: false
+        host: localhost
+        port: 8181
+    http:
+      server:
+        enabled: true
+        host: localhost
+        port: 8181
+    mqtt:
+      server:
+        enabled: false
+        host: localhost
+        port: 54801
+        clientId: wot-servient
+      client:
+        enabled: false
+        host: localhost
+        port: 54801
+        clientId: wot-client
+
 management:
   server:
     port: 9090

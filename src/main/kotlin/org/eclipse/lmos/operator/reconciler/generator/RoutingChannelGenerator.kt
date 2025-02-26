@@ -35,6 +35,7 @@ object RoutingChannelGenerator {
                     name = agent.metadata.name,
                     capabilities = wires.map { ChannelRoutingCapability(it) }.toSet(),
                     description = agent.spec.description,
+                    wotThingDescriptionId = agent.spec.wotThingDescriptionId
                 )
             capabilityGroups.add(capabilityGroup)
         }

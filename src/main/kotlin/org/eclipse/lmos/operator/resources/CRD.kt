@@ -6,7 +6,11 @@
 
 package org.eclipse.lmos.operator.resources
 
+import ai.ancf.lmos.wot.thing.ThingDescription
+import ai.ancf.lmos.wot.thing.schema.WoTThingDescription
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
+import com.fasterxml.jackson.annotation.JsonRawValue
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.fabric8.crd.generator.annotation.PrinterColumn
 import io.fabric8.generator.annotation.Required
@@ -34,6 +38,8 @@ data class AgentSpec(
     var supportedChannels: Set<String> = emptySet(),
     var providedCapabilities: Set<ProvidedCapability> = emptySet(),
     var description: String = "",
+    var wotThingDescriptionId: String = "",
+    var wotThingDescription: JsonNode? = null
 )
 
 sealed class Capability {
@@ -139,6 +145,8 @@ data class CapabilityGroup(
     @Required
     var capabilities: Set<ChannelRoutingCapability>,
     var description: String = "",
+    @Required
+    var wotThingDescriptionId: String
 )
 
 data class ChannelRoutingCapability(
@@ -148,8 +156,6 @@ data class ChannelRoutingCapability(
     var requiredVersion: String,
     @Required
     var providedVersion: String,
-    @Required
-    var host: String,
     var description: String = "",
 ) {
     constructor(wire: Wire<AgentResource>) : this(
@@ -157,7 +163,6 @@ data class ChannelRoutingCapability(
         requiredVersion = wire.requiredCapability.version,
         providedVersion = wire.providedCapability.version,
         description = wire.providedCapability.description,
-        host = "${wire.provider.metadata.name}.${wire.provider.metadata.namespace}.svc.cluster.local",
     )
 }
 
