@@ -10,7 +10,7 @@ import ai.ancf.lmos.wot.thing.ThingDescription
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
-import io.fabric8.kubernetes.api.model.apps.Deployment
+import io.fabric8.kubernetes.api.model.Service
 import org.eclipse.lmos.operator.reconciler.ThingCapabilities
 import org.eclipse.lmos.operator.resources.AgentResource
 import org.eclipse.lmos.operator.resources.AgentSpec
@@ -18,8 +18,9 @@ import org.eclipse.lmos.operator.resources.AgentSpec
 const val LABEL_WOT_THING_DESCRIPTION_ID = "wot-td-id"
 
 object AgentGenerator {
+
     fun createAgentResource(
-        deployment: Deployment,
+        service: Service,
         thingDescription: ThingDescription,
         capabilitiesDescription: ThingCapabilities
     ): AgentResource {
@@ -32,8 +33,8 @@ object AgentGenerator {
         agentSpec.wotThingDescription = jacksonObjectMapper().convertValue(thingDescription, JsonNode::class.java)
 
         val agentMetadata= ObjectMetaBuilder()
-            .withName(deployment.metadata.name)
-            .withNamespace(deployment.metadata.namespace)
+            .withName(service.metadata.name)
+            .withNamespace(service.metadata.namespace)
             .addToLabels(LABEL_WOT_THING_DESCRIPTION_ID, thingDescription.id)
             .build()
 
