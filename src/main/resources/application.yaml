@@ -29,9 +29,14 @@ logging:
       springframework: WARN
       apache: WARN
     io:
+      micrometer: WARN
       javaoperatorsdk:
         operator:
           Operator: WARN
+    reactor:
+      netty:
+        http:
+          client: ERROR
     ai:
       ancf:
         lmos:
@@ -50,17 +55,6 @@ wot:
         enabled: true
         host: localhost
         port: 8181
-    mqtt:
-      server:
-        enabled: false
-        host: localhost
-        port: 54801
-        clientId: wot-servient
-      client:
-        enabled: false
-        host: localhost
-        port: 54801
-        clientId: wot-client
 
 management:
   server:

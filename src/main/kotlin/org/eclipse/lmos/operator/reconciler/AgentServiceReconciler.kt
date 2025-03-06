@@ -16,7 +16,7 @@ import org.eclipse.lmos.operator.resources.ProvidedCapability
 import org.eclipse.lmos.operator.service.AgentClient
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.client.WebClientRequestException
+import org.springframework.web.reactive.function.client.WebClientException
 import java.util.concurrent.TimeUnit
 
 private const val ANNOTATION_KEY_TD_PATH = "wot.w3.org/td-endpoint"
@@ -50,11 +50,12 @@ class AgentServiceReconciler(
             } else {
                 log.error("Failed to create AgentResource for service '$serviceName', due to missing capabilities link in thing description $wotThingDescriptionUrl")
             }
-        } catch (e: WebClientRequestException) {
-            log.warn("Failed to call service endpoint $wotThingDescriptionUrl from service '$serviceName'. Retrying in 20 seconds.")
+        } catch (e: WebClientException) {
+            log.warn("Could not reach thing description endpoint $wotThingDescriptionUrl from service '$serviceName' (${e.message}). Retrying in 20 seconds.")
             return UpdateControl.noUpdate<Service>().rescheduleAfter(20, TimeUnit.SECONDS)
         } catch (e: Exception) {
-            log.error("Failed to create AgentResource for service '$serviceName' with thing description $wotThingDescriptionUrl", e)
+            log.error(
+                "Failed to create AgentResource for service '$serviceName' with thing description $wotThingDescriptionUrl", e)
         }
         return UpdateControl.noUpdate()
     }

@@ -41,17 +41,14 @@ class ThingDiscoveryController(private val client: KubernetesClient) {
     @GetMapping("/{thingId}")
     fun getThingDescription(@PathVariable("thingId") thingId: String): ResponseEntity<JsonNode> {
         val labelSelectors = mapOf(LABEL_WOT_THING_DESCRIPTION_ID to thingId)
-        val agentResource = client.resources(AgentResource::class.java)
-            .withLabels(labelSelectors)
-            .list()
-            .items
+        val thingDescription = retrieveThingDescriptions(labelSelectors)
             .firstOrNull() ?: return ResponseEntity.notFound().build()
-
-        return ResponseEntity.ok(agentResource.spec.wotThingDescription)
+        return ResponseEntity.ok(thingDescription)
     }
 
-    private fun retrieveThingDescriptions(): List<JsonNode> {
+    private fun retrieveThingDescriptions(labels: Map<String, String> = mapOf()): List<JsonNode> {
         return client.resources(AgentResource::class.java)
+            .withLabels(labels)
             .list()
             .items
             .mapNotNull { it.spec.wotThingDescription }
