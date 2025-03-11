@@ -46,7 +46,7 @@ license {
 fun getProperty(propertyName: String) = System.getenv(propertyName) ?: project.findProperty(propertyName) as String
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.DEFAULT)
+    publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
     signAllPublications()
 
     pom {
@@ -93,6 +93,7 @@ mavenPublishing {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
+    group = "publishing"
     if (project.hasProperty("REGISTRY_URL")) {
         val registryUrl = getProperty("REGISTRY_URL")
         val registryUsername = getProperty("REGISTRY_USERNAME")
@@ -135,7 +136,7 @@ tasks.register("replaceChartVersion") {
 
 tasks.register("helmPush") {
     description = "Push Helm chart to OCI registry"
-    group = "helm"
+    group = "publishing"
     dependsOn(tasks.named("helmPackageMainChart"))
 
     doLast {
@@ -165,6 +166,11 @@ tasks.register("helmPush") {
             args(registryUrl)
         }
     }
+}
+
+tasks.named("publish") {
+    dependsOn(tasks.named<BootBuildImage>("bootBuildImage"))
+    dependsOn(tasks.named("helmPush"))
 }
 
 repositories {
