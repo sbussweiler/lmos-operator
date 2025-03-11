@@ -133,7 +133,15 @@ class AgentResolveContextTest {
             )
 
         // Then
-        Assertions.assertThat(wiredCapabilities1).hasSize(1).extracting("provider").contains(agentResource)
-        Assertions.assertThat(wiredCapabilities2).hasSize(1).extracting("provider").contains(agentResource)
+        Assertions
+            .assertThat(wiredCapabilities1)
+            .hasSize(1)
+            .extracting("provider")
+            .contains(agentResource)
+        Assertions
+            .assertThat(wiredCapabilities2)
+            .hasSize(1)
+            .extracting("provider")
+            .contains(agentResource)
     }
 }

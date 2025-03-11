@@ -10,7 +10,9 @@ import org.eclipse.lmos.operator.resources.AgentResource
 import org.eclipse.lmos.operator.resources.ChannelResource
 import java.util.function.Predicate
 
-class AgentResourcesFilter(channelResource: ChannelResource) : Predicate<AgentResource> {
+class AgentResourcesFilter(
+    channelResource: ChannelResource,
+) : Predicate<AgentResource> {
     private val labels: Map<String, String>
 
     init {

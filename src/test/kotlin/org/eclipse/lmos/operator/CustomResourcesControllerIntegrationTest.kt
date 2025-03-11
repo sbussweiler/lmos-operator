@@ -23,7 +23,7 @@ import java.io.FileInputStream
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = [OperatorApplication::class]
+    classes = [OperatorApplication::class],
 )
 @AutoConfigureWebTestClient
 @EnableMockOperator(
@@ -35,7 +35,6 @@ import java.io.FileInputStream
     ],
 )
 class CustomResourcesControllerIntegrationTest {
-
     @Autowired
     private lateinit var webTestClient: WebTestClient
 
@@ -62,8 +61,10 @@ class CustomResourcesControllerIntegrationTest {
                 .header(X_SUBSET_HEADER, "stable")
                 .header(X_NAMESPACE_HEADER, "default")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(ChannelResource::class.java).returnResult()
+                .expectStatus()
+                .isOk()
+                .expectBodyList(ChannelResource::class.java)
+                .returnResult()
 
         val responseBody = result.responseBody
 
@@ -84,8 +85,10 @@ class CustomResourcesControllerIntegrationTest {
                 .header(X_SUBSET_HEADER, "stable")
                 .header(X_NAMESPACE_HEADER, "default")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody(ChannelResource::class.java).returnResult()
+                .expectStatus()
+                .isOk()
+                .expectBody(ChannelResource::class.java)
+                .returnResult()
 
         val responseBody = result.responseBody
 
@@ -107,8 +110,10 @@ class CustomResourcesControllerIntegrationTest {
                 .header(X_SUBSET_HEADER, "stable")
                 .header(X_NAMESPACE_HEADER, "default")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody(ChannelRoutingResource::class.java).returnResult()
+                .expectStatus()
+                .isOk()
+                .expectBody(ChannelRoutingResource::class.java)
+                .returnResult()
 
         val responseBody = result.responseBody
 
@@ -129,10 +134,9 @@ class CustomResourcesControllerIntegrationTest {
             .header(X_SUBSET_HEADER, "stable")
             .header(X_NAMESPACE_HEADER, "default")
             .exchange()
-            .expectStatus().isNotFound()
+            .expectStatus()
+            .isNotFound()
     }
 
-    private fun getResource(resourceName: String): FileInputStream {
-        return FileInputStream(ResourceUtils.getFile("classpath:$resourceName"))
-    }
+    private fun getResource(resourceName: String): FileInputStream = FileInputStream(ResourceUtils.getFile("classpath:$resourceName"))
 }

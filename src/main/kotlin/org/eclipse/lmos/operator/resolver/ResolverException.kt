@@ -29,7 +29,7 @@ class ResolverException : Exception {
      * @param unresolvedRequiredCapabilities The unresolved required capabilities.
      */
     constructor(resolvedWiredCapabilities: Set<Wire<AgentResource>>, unresolvedRequiredCapabilities: Set<RequiredCapability>) : super(
-        "Required capabilities not resolved: ${unresolvedRequiredCapabilities.joinToString(", ") { it.toString() }}"
+        "Required capabilities not resolved: ${unresolvedRequiredCapabilities.joinToString(", ") { it.toString() }}",
     ) {
         this.resolvedWiredCapabilities = resolvedWiredCapabilities
         this.unresolvedRequiredCapabilities = Collections.unmodifiableSet(unresolvedRequiredCapabilities)
@@ -53,9 +53,14 @@ class ResolverException : Exception {
      * @param resolvedWiredCapabilities The resolved wired capabilities.
      * @param unresolvedRequiredCapabilities The unresolved required capabilities.
      */
-    constructor(message: String, cause: Throwable, resolvedWiredCapabilities: Set<Wire<AgentResource>>, unresolvedRequiredCapabilities: Set<RequiredCapability>) : super(
+    constructor(
+        message: String,
+        cause: Throwable,
+        resolvedWiredCapabilities: Set<Wire<AgentResource>>,
+        unresolvedRequiredCapabilities: Set<RequiredCapability>,
+    ) : super(
         message,
-        cause
+        cause,
     ) {
         this.resolvedWiredCapabilities = resolvedWiredCapabilities
         this.unresolvedRequiredCapabilities = Collections.unmodifiableSet(unresolvedRequiredCapabilities)
@@ -68,9 +73,7 @@ class ResolverException : Exception {
      * The returned collection may be empty if no unresolved
      * requirements information is available.
      */
-    fun getUnresolvedRequiredCapabilities(): Set<RequiredCapability> {
-        return unresolvedRequiredCapabilities
-    }
+    fun getUnresolvedRequiredCapabilities(): Set<RequiredCapability> = unresolvedRequiredCapabilities
 
     /**
      * Return the resolved wired capabilities, if any, for this exception.
@@ -78,7 +81,5 @@ class ResolverException : Exception {
      * @return A collection of the resolved wired capabilities for this exception.
      * The returned collection may be empty if no wired capabilities are available.
      */
-    fun getResolvedWireCapabilities(): Set<Wire<AgentResource>> {
-        return resolvedWiredCapabilities
-    }
+    fun getResolvedWireCapabilities(): Set<Wire<AgentResource>> = resolvedWiredCapabilities
 }

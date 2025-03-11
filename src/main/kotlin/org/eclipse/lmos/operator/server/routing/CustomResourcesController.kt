@@ -23,7 +23,9 @@ private const val KUBERNETES_DEFAULT_NAMESPACE = "default"
 
 @RestController
 @RequestMapping("/apis/v1/tenants/{tenant}", produces = [MediaType.APPLICATION_JSON_VALUE])
-class CustomResourcesController(private val customResourcesService: CustomResourcesService) {
+class CustomResourcesController(
+    private val customResourcesService: CustomResourcesService,
+) {
     @GetMapping("/channels")
     fun getChannels(
         @RequestHeader(name = X_SUBSET_HEADER) subsetHeader: String,

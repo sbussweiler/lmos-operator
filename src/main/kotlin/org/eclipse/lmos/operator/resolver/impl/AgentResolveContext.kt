@@ -13,7 +13,9 @@ import org.eclipse.lmos.operator.resources.ProvidedCapability
 import org.eclipse.lmos.operator.resources.RequiredCapability
 import org.semver4j.Semver
 
-class AgentResolveContext(private val agentResources: List<AgentResource>) : ResolveContext<AgentResource> {
+class AgentResolveContext(
+    private val agentResources: List<AgentResource>,
+) : ResolveContext<AgentResource> {
     override val availableResources: Collection<AgentResource>
         get() = agentResources
 
@@ -61,9 +63,7 @@ class AgentResolveContext(private val agentResources: List<AgentResource>) : Res
     private fun isProvidedCapabilityVersionGreaterThanOrEqualTo(
         providedCapability: ProvidedCapability,
         requiredCapabilityVersion: String,
-    ): Boolean {
-        return Semver(providedCapability.version).satisfies(requiredCapabilityVersion)
-    }
+    ): Boolean = Semver(providedCapability.version).satisfies(requiredCapabilityVersion)
 
     /**
      * Checks if the names of the required capability and provided capability are equal.
@@ -75,7 +75,5 @@ class AgentResolveContext(private val agentResources: List<AgentResource>) : Res
     private fun isCapabilityNameEqual(
         requiredCapability: RequiredCapability,
         providedCapability: ProvidedCapability,
-    ): Boolean {
-        return providedCapability.name == requiredCapability.name
-    }
+    ): Boolean = providedCapability.name == requiredCapability.name
 }

@@ -27,7 +27,9 @@ import org.eclipse.lmos.operator.resolver.Wire
 @Singular("agent")
 @Kind("Agent")
 @ShortNames("ag")
-class AgentResource : CustomResource<AgentSpec, Void>(), Namespaced
+class AgentResource :
+    CustomResource<AgentSpec, Void>(),
+    Namespaced
 
 data class AgentSpec(
     var supportedTenants: Set<String> = emptySet(),
@@ -56,7 +58,9 @@ data class ProvidedCapability(
 @Singular("channel")
 @Kind("Channel")
 @ShortNames("ch")
-class ChannelResource() : CustomResource<ChannelSpec, ChannelStatus>(), Namespaced
+class ChannelResource :
+    CustomResource<ChannelSpec, ChannelStatus>(),
+    Namespaced
 
 enum class ResolveStatus {
     RESOLVED,
@@ -90,7 +94,9 @@ data class ChannelSpec(
 @Singular("channelrollout")
 @Kind("ChannelRollout")
 @ShortNames("crl")
-class ChannelRolloutResource : CustomResource<ChannelRolloutSpec, Void>(), Namespaced
+class ChannelRolloutResource :
+    CustomResource<ChannelRolloutSpec, Void>(),
+    Namespaced
 
 data class StableChannel(
     var name: String,
@@ -121,7 +127,9 @@ data class ChannelRolloutSpec(
 @Singular("channelrouting")
 @Kind("ChannelRouting")
 @ShortNames("cr")
-class ChannelRoutingResource : CustomResource<ChannelRoutingSpec, Void>(), Namespaced
+class ChannelRoutingResource :
+    CustomResource<ChannelRoutingSpec, Void>(),
+    Namespaced
 
 data class ChannelRoutingSpec(
     var capabilityGroups: Set<CapabilityGroup> = setOf(),

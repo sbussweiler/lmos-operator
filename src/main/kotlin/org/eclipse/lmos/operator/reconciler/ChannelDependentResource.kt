@@ -39,12 +39,18 @@ class ChannelDependentResource :
 
         // Retrieve all agents from the same namespace of the channel resource
         val agentResources =
-            client.resources(AgentResource::class.java).inNamespace(namespace).list().items
+            client
+                .resources(AgentResource::class.java)
+                .inNamespace(namespace)
+                .list()
+                .items
 
         // Filter agents which support the tenant and channel of the channel resource
         val filteredAgentResources =
-            agentResources.stream()
-                .filter(AgentResourcesFilter(channelResource)).toList()
+            agentResources
+                .stream()
+                .filter(AgentResourcesFilter(channelResource))
+                .toList()
 
         val resolveContext = AgentResolveContext(filteredAgentResources)
         val requiredCapabilities = channelResource.spec.requiredCapabilities
@@ -67,5 +73,4 @@ class ChannelDependentResource :
             return channelRoutingResource
         }
     }
-
 }

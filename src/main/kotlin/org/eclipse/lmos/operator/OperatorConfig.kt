@@ -19,11 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.util.*
+import java.util.Optional
 
 @Configuration
 open class OperatorConfig {
-
     @Autowired
     private lateinit var configuration: OperatorConfigurationProperties
 
@@ -32,33 +31,41 @@ open class OperatorConfig {
     open fun kubernetesClient(
         httpClientFactory: Optional<HttpClient.Factory?>,
         config: Config?,
-        objectMapper: ObjectMapper
+        objectMapper: ObjectMapper,
     ): KubernetesClient {
         objectMapper.registerKotlinModule()
-        return if (configuration.getClient().isOpenshift())
+        return if (configuration.getClient().isOpenshift()) {
             httpClientFactory
                 .map<OpenShiftClient> { it: HttpClient.Factory? ->
-                    KubernetesClientBuilder().withHttpClientFactory(it).withConfig(config)
+                    KubernetesClientBuilder()
+                        .withHttpClientFactory(it)
+                        .withConfig(config)
                         .withKubernetesSerialization(KubernetesSerialization(objectMapper, true))
-                        .build().adapt<OpenShiftClient>(OpenShiftClient::class.java)
+                        .build()
+                        .adapt<OpenShiftClient>(OpenShiftClient::class.java)
                 } // new DefaultOpenShiftClient(it.createHttpClient(config),
                 // new OpenShiftConfig(config)))
                 .orElseGet {
-                    KubernetesClientBuilder().withConfig(config)
+                    KubernetesClientBuilder()
+                        .withConfig(config)
                         .withKubernetesSerialization(KubernetesSerialization(objectMapper, true))
-                        .build().adapt<OpenShiftClient>(OpenShiftClient::class.java)
+                        .build()
+                        .adapt<OpenShiftClient>(OpenShiftClient::class.java)
                 }
-        else
+        } else {
             httpClientFactory
                 .map<KubernetesClient> { it: HttpClient.Factory? ->
-                    KubernetesClientBuilder().withHttpClientFactory(it).withConfig(config)
+                    KubernetesClientBuilder()
+                        .withHttpClientFactory(it)
+                        .withConfig(config)
+                        .withKubernetesSerialization(KubernetesSerialization(objectMapper, true))
+                        .build()
+                }.orElseGet {
+                    KubernetesClientBuilder()
+                        .withConfig(config)
                         .withKubernetesSerialization(KubernetesSerialization(objectMapper, true))
                         .build()
                 }
-                .orElseGet {
-                    KubernetesClientBuilder().withConfig(config)
-                        .withKubernetesSerialization(KubernetesSerialization(objectMapper, true))
-                        .build()
-                }
+        }
     }
 }

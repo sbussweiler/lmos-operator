@@ -77,15 +77,9 @@ object TestDataGenerator {
         return channelResource
     }
 
-    fun createRequiredCapability(): RequiredCapability {
-        return RequiredCapability("capability1", ">=1.0.0")
-    }
+    fun createRequiredCapability(): RequiredCapability = RequiredCapability("capability1", ">=1.0.0")
 
-    fun createProvidedCapability(): ProvidedCapability {
-        return ProvidedCapability("capability1", "1.2.0", "description")
-    }
+    fun createProvidedCapability(): ProvidedCapability = ProvidedCapability("capability1", "1.2.0", "description")
 
-    fun createAgentWire(): Wire<AgentResource> {
-        return Wire(createRequiredCapability(), createProvidedCapability(), createAgentResource("1.1.0"))
-    }
+    fun createAgentWire(): Wire<AgentResource> = Wire(createRequiredCapability(), createProvidedCapability(), createAgentResource("1.1.0"))
 }

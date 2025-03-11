@@ -76,6 +76,5 @@ fun createChannelRoutingResource(channelResource: ChannelResource): ChannelRouti
  * @param wiredCapabilities the set of wires to be grouped
  * @return a map where the key is the AgentResource and the value is a set of wires belonging to that AgentResource
  */
-fun groupWiresByProvider(wiredCapabilities: Set<Wire<AgentResource>>): Map<AgentResource, Set<Wire<AgentResource>>> {
-    return wiredCapabilities.groupBy { it.provider }.mapValues { it.value.toSet() }
-}
+fun groupWiresByProvider(wiredCapabilities: Set<Wire<AgentResource>>): Map<AgentResource, Set<Wire<AgentResource>>> =
+    wiredCapabilities.groupBy { it.provider }.mapValues { it.value.toSet() }

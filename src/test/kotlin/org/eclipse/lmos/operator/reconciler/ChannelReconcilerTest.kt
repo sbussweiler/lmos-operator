@@ -11,7 +11,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.Awaitility
 import org.eclipse.lmos.operator.EnableMockOperator
 import org.eclipse.lmos.operator.OperatorApplication
-import org.eclipse.lmos.operator.resources.*
+import org.eclipse.lmos.operator.resources.AgentResource
+import org.eclipse.lmos.operator.resources.ChannelResource
+import org.eclipse.lmos.operator.resources.ChannelRoutingResource
+import org.eclipse.lmos.operator.resources.ResolveStatus
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.util.ResourceUtils
 import java.io.FileInputStream
 import java.util.concurrent.TimeUnit
-
 
 @SpringBootTest(
     classes = [OperatorApplication::class],
@@ -33,7 +35,6 @@ import java.util.concurrent.TimeUnit
     ],
 )
 internal class ChannelReconcilerTest {
-
     @Autowired
     lateinit var client: KubernetesClient
 
@@ -53,8 +54,7 @@ internal class ChannelReconcilerTest {
                 .customResourceDefinitions()
                 .withName("agents.lmos.eclipse")
                 .get(),
-        )
-            .isNotNull()
+        ).isNotNull()
 
         assertThat(
             client
@@ -63,8 +63,7 @@ internal class ChannelReconcilerTest {
                 .customResourceDefinitions()
                 .withName("channels.lmos.eclipse")
                 .get(),
-        )
-            .isNotNull()
+        ).isNotNull()
 
         assertThat(
             client
@@ -73,8 +72,7 @@ internal class ChannelReconcilerTest {
                 .customResourceDefinitions()
                 .withName("channelroutings.lmos.eclipse")
                 .get(),
-        )
-            .isNotNull()
+        ).isNotNull()
     }
 
     @Test
@@ -249,41 +247,49 @@ internal class ChannelReconcilerTest {
         assertThatCapabilityExists(channelRoutingResource, "billing-agent-stable", "download-bill", "1.2.0")
     }
 
-    private fun getResource(resourceName: String): FileInputStream {
-        return FileInputStream(ResourceUtils.getFile("classpath:$resourceName"))
-    }
+    private fun getResource(resourceName: String): FileInputStream = FileInputStream(ResourceUtils.getFile("classpath:$resourceName"))
 
-    private fun assertThatChannelExists(channelName: String, expectedStatus: ResolveStatus) =
-        Awaitility.await("ChannelResource '$channelName' with expected status '$expectedStatus' not found.")
-            .atMost(5, TimeUnit.SECONDS)
-            .pollInterval(50, TimeUnit.MILLISECONDS)
-            .until(
-                {
-                    client.resources(ChannelResource::class.java).list().items
-                        .find { it.metadata.name == channelName }
-                },
-                { resource: ChannelResource? ->
-                    resource?.status != null && resource.status.resolveStatus == expectedStatus
-                }
-            )!!
+    private fun assertThatChannelExists(
+        channelName: String,
+        expectedStatus: ResolveStatus,
+    ) = Awaitility
+        .await("ChannelResource '$channelName' with expected status '$expectedStatus' not found.")
+        .atMost(5, TimeUnit.SECONDS)
+        .pollInterval(50, TimeUnit.MILLISECONDS)
+        .until(
+            {
+                client
+                    .resources(ChannelResource::class.java)
+                    .list()
+                    .items
+                    .find { it.metadata.name == channelName }
+            },
+            { resource: ChannelResource? ->
+                resource?.status != null && resource.status.resolveStatus == expectedStatus
+            },
+        )!!
 
     private fun assertThatChannelRoutingExists(channelRoutingName: String) =
-        Awaitility.await("ChannelRoutingResource '$channelRoutingName' not found.")
+        Awaitility
+            .await("ChannelRoutingResource '$channelRoutingName' not found.")
             .atMost(5, TimeUnit.SECONDS)
             .pollInterval(50, TimeUnit.MILLISECONDS)
             .until(
                 {
-                    client.resources(ChannelRoutingResource::class.java).list().items
+                    client
+                        .resources(ChannelRoutingResource::class.java)
+                        .list()
+                        .items
                         .find { it.metadata.name == channelRoutingName }
                 },
-                { resource: ChannelRoutingResource? -> resource != null }
+                { resource: ChannelRoutingResource? -> resource != null },
             )!!
 
     private fun assertThatCapabilityExists(
         channelRoutingResource: ChannelRoutingResource,
         agentName: String,
         capabilityName: String,
-        capabilityVersion: String
+        capabilityVersion: String,
     ) {
         val capabilityGroup = channelRoutingResource.spec?.capabilityGroups?.find { it.name == agentName }
         assertThat(capabilityGroup).isNotNull()
@@ -291,7 +297,8 @@ internal class ChannelReconcilerTest {
         assertThat(capability).isNotNull()
     }
 
-    private fun assertThatCapabilityGroupNotExists(channelRoutingResource: ChannelRoutingResource, agentName: String) =
-        assertThat(channelRoutingResource.spec?.capabilityGroups?.find { it.name == agentName }).isNull()
-
+    private fun assertThatCapabilityGroupNotExists(
+        channelRoutingResource: ChannelRoutingResource,
+        agentName: String,
+    ) = assertThat(channelRoutingResource.spec?.capabilityGroups?.find { it.name == agentName }).isNull()
 }

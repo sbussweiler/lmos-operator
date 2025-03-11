@@ -9,10 +9,9 @@ package org.eclipse.lmos.operator
 import org.springframework.boot.test.autoconfigure.properties.PropertyMapping
 import org.springframework.context.annotation.Import
 
-
 @Retention(AnnotationRetention.RUNTIME)
 @Import(
-    TestConfig::class
+    TestConfig::class,
 )
 @PropertyMapping("javaoperatorsdk.test")
 annotation class EnableMockOperator(
@@ -25,4 +24,3 @@ annotation class EnableMockOperator(
      */
     @get:PropertyMapping("crd-paths") val crdPaths: Array<String> = [],
 )
-

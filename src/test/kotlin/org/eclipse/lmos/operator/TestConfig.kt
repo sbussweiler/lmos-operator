@@ -28,14 +28,12 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.util.stream.Stream
 
-
 @TestConfiguration
 @ImportAutoConfiguration(OperatorAutoConfiguration::class)
 @EnableConfigurationProperties(
-    TestConfigurationProperties::class
+    TestConfigurationProperties::class,
 )
 class TestConfig {
-
     @Bean
     fun k3sKubernetesContainer(): K3sContainer {
         val k3sContainer = K3sContainer(DockerImageName.parse("rancher/k3s:v1.21.3-k3s1"))
@@ -51,16 +49,18 @@ class TestConfig {
         val config = Config.fromKubeconfig(k3sKubernetesContainer.kubeConfigYaml)
         config.namespace = "default"
 
-        val client = KubernetesClientBuilder()
-            .withConfig(config)
-            .withKubernetesSerialization(
-                KubernetesSerialization(
-                    Serialization.jsonMapper().registerKotlinModule(), true
-                )
-            )
-            .build()
+        val client =
+            KubernetesClientBuilder()
+                .withConfig(config)
+                .withKubernetesSerialization(
+                    KubernetesSerialization(
+                        Serialization.jsonMapper().registerKotlinModule(),
+                        true,
+                    ),
+                ).build()
 
-        Stream.concat(properties.crdPaths.stream(), properties.globalCrdPaths.stream())
+        Stream
+            .concat(properties.crdPaths.stream(), properties.globalCrdPaths.stream())
             .forEach { crdPath: String? ->
                 val crd: CustomResourceDefinition
                 try {
@@ -70,7 +70,11 @@ class TestConfig {
                     e.printStackTrace()
                     return@forEach
                 }
-                client.apiextensions().v1().customResourceDefinitions().create(crd)
+                client
+                    .apiextensions()
+                    .v1()
+                    .customResourceDefinitions()
+                    .create(crd)
             }
 
         return client
@@ -79,5 +83,4 @@ class TestConfig {
     companion object {
         private val log: Logger = LoggerFactory.getLogger(TestConfiguration::class.java)
     }
-
 }

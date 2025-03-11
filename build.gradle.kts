@@ -12,7 +12,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.4.0"
     id("org.jetbrains.kotlin.plugin.spring") version "2.1.0"
-    //id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.cadixdev.licenser") version "0.6.1"
 
@@ -32,9 +32,9 @@ java {
     }
 }
 
-//ktlint {
-//    version.set("1.4.1")
-//}
+ktlint {
+    version.set("1.5.0")
+}
 
 license {
     include("**/*.java")
@@ -76,15 +76,8 @@ mavenPublishing {
     }
 
     release {
-        buildTasks = listOf("releaseBuild")
-        ignoredSnapshotDependencies =
-            listOf()
         newVersionCommitMessage = "New Snapshot-Version:"
         preTagCommitMessage = "Release:"
-    }
-
-    tasks.register("releaseBuild") {
-        dependsOn(subprojects.mapNotNull { it.tasks.findByName("build") })
     }
 
     repositories {
@@ -160,8 +153,10 @@ tasks.register("helmPush") {
         helm.execHelm("push") {
             args(
                 tasks
-                .named("helmPackageMainChart")
-                .get().outputs.files.singleFile.toString()
+                    .named("helmPackageMainChart")
+                    .get()
+                    .outputs.files.singleFile
+                    .toString(),
             )
             args("oci://$registryUrl/$registryNamespace")
         }

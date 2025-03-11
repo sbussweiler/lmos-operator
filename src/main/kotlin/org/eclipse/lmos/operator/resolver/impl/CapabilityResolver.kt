@@ -22,12 +22,11 @@ object CapabilityResolver {
     fun findBestMatchingWire(
         wires: Set<Wire<AgentResource>>,
         resolveStrategy: ResolveStrategy,
-    ): Wire<AgentResource>? {
-        return if (resolveStrategy == ResolveStrategy.MOST_SIMILAR) {
+    ): Wire<AgentResource>? =
+        if (resolveStrategy == ResolveStrategy.MOST_SIMILAR) {
             // Implement the logic for MOST_SIMILAR strategy here
             wires.minByOrNull { w -> Semver(w.providedCapability.version) }
         } else {
             wires.maxByOrNull { w -> Semver(w.providedCapability.version) }
         }
-    }
 }
