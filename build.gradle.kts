@@ -94,7 +94,7 @@ mavenPublishing {
 
 tasks.named<BootBuildImage>("bootBuildImage") {
     group = "publishing"
-    if (project.hasProperty("REGISTRY_URL")) {
+    if ((System.getenv("REGISTRY_URL") ?: project.findProperty("REGISTRY_URL")) != null) {
         val registryUrl = getProperty("REGISTRY_URL")
         val registryUsername = getProperty("REGISTRY_USERNAME")
         val registryPassword = getProperty("REGISTRY_PASSWORD")
@@ -140,30 +140,32 @@ tasks.register("helmPush") {
     dependsOn(tasks.named("helmPackageMainChart"))
 
     doLast {
-        val registryUrl = getProperty("REGISTRY_URL")
-        val registryUsername = getProperty("REGISTRY_USERNAME")
-        val registryPassword = getProperty("REGISTRY_PASSWORD")
-        val registryNamespace = getProperty("REGISTRY_NAMESPACE")
+        if ((System.getenv("REGISTRY_URL") ?: project.findProperty("REGISTRY_URL")) != null) {
+            val registryUrl = getProperty("REGISTRY_URL")
+            val registryUsername = getProperty("REGISTRY_USERNAME")
+            val registryPassword = getProperty("REGISTRY_PASSWORD")
+            val registryNamespace = getProperty("REGISTRY_NAMESPACE")
 
-        helm.execHelm("registry", "login") {
-            option("-u", registryUsername)
-            option("-p", registryPassword)
-            args(registryUrl)
-        }
+            helm.execHelm("registry", "login") {
+                option("-u", registryUsername)
+                option("-p", registryPassword)
+                args(registryUrl)
+            }
 
-        helm.execHelm("push") {
-            args(
-                tasks
-                    .named("helmPackageMainChart")
-                    .get()
-                    .outputs.files.singleFile
-                    .toString(),
-            )
-            args("oci://$registryUrl/$registryNamespace")
-        }
+            helm.execHelm("push") {
+                args(
+                    tasks
+                        .named("helmPackageMainChart")
+                        .get()
+                        .outputs.files.singleFile
+                        .toString(),
+                )
+                args("oci://$registryUrl/$registryNamespace")
+            }
 
-        helm.execHelm("registry", "logout") {
-            args(registryUrl)
+            helm.execHelm("registry", "logout") {
+                args(registryUrl)
+            }
         }
     }
 }
