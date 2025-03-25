@@ -20,8 +20,9 @@ plugins {
     id("com.citi.helm-publish") version "2.2.0"
     id("net.researchgate.release") version "3.1.0"
     id("com.vanniktech.maven.publish") version "0.31.0"
-    kotlin("jvm")
-    kotlin("kapt") version "2.1.10"
+    val kotlinVersion = "2.1.10"
+    kotlin("jvm") version kotlinVersion
+    kotlin("kapt") version kotlinVersion
 }
 
 group = "org.eclipse.lmos"
