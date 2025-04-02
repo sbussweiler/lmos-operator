@@ -6,7 +6,6 @@
 
 package org.eclipse.lmos.operator.reconciler.generator
 
-import ai.ancf.lmos.wot.thing.ThingDescription
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
@@ -14,6 +13,7 @@ import io.fabric8.kubernetes.api.model.Service
 import org.eclipse.lmos.operator.reconciler.ThingCapabilities
 import org.eclipse.lmos.operator.resources.AgentResource
 import org.eclipse.lmos.operator.resources.AgentSpec
+import org.eclipse.thingweb.thing.ThingDescription
 
 const val LABEL_WOT_THING_DESCRIPTION_ID = "wot-td-id"
 

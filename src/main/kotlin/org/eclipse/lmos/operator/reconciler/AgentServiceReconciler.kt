@@ -6,7 +6,6 @@
 
 package org.eclipse.lmos.operator.reconciler
 
-import ai.ancf.lmos.wot.thing.ThingDescription
 import io.fabric8.kubernetes.api.model.Service
 import io.fabric8.kubernetes.client.KubernetesClient
 import io.javaoperatorsdk.operator.api.reconciler.*
@@ -14,6 +13,7 @@ import org.eclipse.lmos.operator.reconciler.generator.AgentGenerator
 import org.eclipse.lmos.operator.resources.AgentResource
 import org.eclipse.lmos.operator.resources.ProvidedCapability
 import org.eclipse.lmos.operator.service.AgentClient
+import org.eclipse.thingweb.thing.ThingDescription
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClientException

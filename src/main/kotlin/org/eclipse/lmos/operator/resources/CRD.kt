@@ -6,10 +6,7 @@
 
 package org.eclipse.lmos.operator.resources
 
-import ai.ancf.lmos.wot.thing.ThingDescription
-import ai.ancf.lmos.wot.thing.schema.WoTThingDescription
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
-import com.fasterxml.jackson.annotation.JsonRawValue
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.fabric8.crd.generator.annotation.PrinterColumn

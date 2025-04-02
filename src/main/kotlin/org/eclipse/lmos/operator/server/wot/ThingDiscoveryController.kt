@@ -6,11 +6,14 @@
 
 package org.eclipse.lmos.operator.server.wot
 
-import ai.ancf.lmos.wot.reflection.annotations.*
 import com.fasterxml.jackson.databind.JsonNode
 import io.fabric8.kubernetes.client.KubernetesClient
 import org.eclipse.lmos.operator.reconciler.generator.LABEL_WOT_THING_DESCRIPTION_ID
 import org.eclipse.lmos.operator.resources.AgentResource
+import org.eclipse.thingweb.reflection.annotations.Context
+import org.eclipse.thingweb.reflection.annotations.Property
+import org.eclipse.thingweb.reflection.annotations.Thing
+import org.eclipse.thingweb.reflection.annotations.VersionInfo
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController
     id = "things", title = "Thing Description Directory", type = "ThingDirectory",
     description = "This a Thing Discovery Service implemented by the LMOS Operator."
 )
-@Context(prefix = "NOT-REQUIRED", url = "https://www.w3.org/2022/wot/discovery")
+@Context(url = "https://www.w3.org/2022/wot/discovery")
 @VersionInfo(instance = "1.0.0")
 class ThingDiscoveryController(private val client: KubernetesClient) {
 

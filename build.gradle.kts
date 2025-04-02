@@ -193,11 +193,11 @@ dependencies {
 
     implementation("org.semver4j:semver4j:5.4.1")
 
-    implementation("ai.ancf.lmos:kotlin-wot:1.0-SNAPSHOT")
-    implementation("ai.ancf.lmos:kotlin-wot-spring-boot-starter:1.0-SNAPSHOT")
-    implementation("ai.ancf.lmos:kotlin-wot-lmos-protocol:1.0-SNAPSHOT")
-    implementation("ai.ancf.lmos:kotlin-wot-binding-http:1.0-SNAPSHOT")
-    implementation("ai.ancf.lmos:kotlin-wot-binding-websocket:1.0-SNAPSHOT")
+    implementation("org.eclipse.thingweb:kotlin-wot:0.1.3-SNAPSHOT")
+    implementation("org.eclipse.thingweb:kotlin-wot-spring-boot-starter:0.1.3-SNAPSHOT")
+    implementation("org.eclipse.thingweb:kotlin-wot-lmos-protocol:0.1.3-SNAPSHOT")
+    implementation("org.eclipse.thingweb:kotlin-wot-binding-http:0.1.3-SNAPSHOT")
+    implementation("org.eclipse.thingweb:kotlin-wot-binding-websocket:0.1.3-SNAPSHOT")
 
     testImplementation("io.javaoperatorsdk:operator-framework-spring-boot-starter-test:5.6.0") {
         exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")

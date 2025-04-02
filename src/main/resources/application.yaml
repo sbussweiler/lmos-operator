@@ -47,13 +47,11 @@ wot:
   servient:
     websocket:
       server:
-        enabled: false
-        host: localhost
-        port: 8181
+        enabled: true
+        port: 8282
     http:
       server:
         enabled: true
-        host: localhost
         port: 8181
 
 management:
