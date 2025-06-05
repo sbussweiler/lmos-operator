@@ -4,13 +4,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-apiVersion: lmos.eclipse/v1
+apiVersion: lmos.eclipse/v2
 kind: Agent
 metadata:
   name: contract-agent
   labels:
     version: "1.0.0"
 spec:
+  id: contract-agent
   description: This is the contract agent description
   supportedTenants:
     - acme
@@ -18,6 +19,7 @@ spec:
     - web
     - ivr
   providedCapabilities:
-    - name: cancel-contract
+    - id: cancel-contract
+      name: cancel-contract
       version: 1.1.0
       description: Capability to cancel a contract

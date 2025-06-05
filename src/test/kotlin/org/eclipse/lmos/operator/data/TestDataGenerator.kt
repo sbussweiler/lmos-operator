@@ -20,10 +20,11 @@ object TestDataGenerator {
         val agentResource = AgentResource()
         val agentSpec =
             AgentSpec(
+                "agentId",
+                "description",
                 setOf("tenant1", "tenant2"),
                 setOf("channel1", "channel2"),
                 setOf(ProvidedCapability("Capability1", version, "Capability description")),
-                "description",
             )
         agentResource.spec = agentSpec
         return agentResource
@@ -36,13 +37,14 @@ object TestDataGenerator {
         val agentResource = AgentResource()
         val agentSpec =
             AgentSpec(
+                "agentId",
+                "description",
                 setOf("tenant1", "tenant2"),
                 setOf("channel1", "channel2"),
                 setOf(
                     ProvidedCapability("Capability1", version1, "Capability1 description"),
                     ProvidedCapability("Capability2", version2, "Capability2 description"),
                 ),
-                "description",
             )
         agentResource.spec = agentSpec
         return agentResource
@@ -52,7 +54,7 @@ object TestDataGenerator {
         val channelResource = ChannelResource()
 
         val requiredCapabilities: MutableSet<RequiredCapability> = HashSet()
-        requiredCapabilities.add(RequiredCapability("Capability1", version, ResolveStrategy.HIGHEST))
+        requiredCapabilities.add(RequiredCapability("CapabilityId-1", "Capability1", version, ResolveStrategy.HIGHEST))
 
         val channelSpec = ChannelSpec(requiredCapabilities)
         channelResource.spec = channelSpec
@@ -68,8 +70,8 @@ object TestDataGenerator {
         val channelResource = ChannelResource()
 
         val requiredCapabilities: MutableSet<RequiredCapability> = HashSet()
-        requiredCapabilities.add(RequiredCapability("Capability1", version1, strategy))
-        requiredCapabilities.add(RequiredCapability("Capability2", version2, strategy))
+        requiredCapabilities.add(RequiredCapability("CapabilityId-1", "Capability1", version1, strategy))
+        requiredCapabilities.add(RequiredCapability("CapabilityId-2", "Capability2", version2, strategy))
 
         val channelSpec = ChannelSpec(requiredCapabilities)
         channelResource.spec = channelSpec
@@ -77,9 +79,9 @@ object TestDataGenerator {
         return channelResource
     }
 
-    fun createRequiredCapability(): RequiredCapability = RequiredCapability("capability1", ">=1.0.0")
+    fun createRequiredCapability(): RequiredCapability = RequiredCapability("CapabilityId-1", "capability1", ">=1.0.0")
 
-    fun createProvidedCapability(): ProvidedCapability = ProvidedCapability("capability1", "1.2.0", "description")
+    fun createProvidedCapability(): ProvidedCapability = ProvidedCapability("CapabilityId-1", "capability1", "1.2.0", "description")
 
     fun createAgentWire(): Wire<AgentResource> = Wire(createRequiredCapability(), createProvidedCapability(), createAgentResource("1.1.0"))
 }

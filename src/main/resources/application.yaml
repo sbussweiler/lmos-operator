@@ -22,6 +22,17 @@ javaoperatorsdk:
   crd:
     apply-on-startup: true
 
+lmos:
+  router:
+    embedding:
+      enabled: true
+      store:
+        host: ${EMBEDDING_STORE_HOST:localhost}
+        port: ${EMBEDDING_STORE_PORT:6334}
+      model:
+        provider: openai
+        base-url: ${EMBEDDING_MODEL_OPENAI_BASE_URL:https://api.openai.com/v1/embeddings}
+
 logging:
   level:
     root: INFO
