@@ -25,7 +25,7 @@ javaoperatorsdk:
 lmos:
   router:
     embedding:
-      enabled: true
+      enabled: ${EMBEDDING_ENABLED:false}
       store:
         host: ${EMBEDDING_STORE_HOST:localhost}
         port: ${EMBEDDING_STORE_PORT:6334}

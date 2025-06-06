@@ -24,7 +24,7 @@ object TestDataGenerator {
                 "description",
                 setOf("tenant1", "tenant2"),
                 setOf("channel1", "channel2"),
-                setOf(ProvidedCapability("Capability1", version, "Capability description")),
+                setOf(ProvidedCapability("Capability1Id", "Capability1", version, "Capability description")),
             )
         agentResource.spec = agentSpec
         return agentResource
@@ -42,8 +42,8 @@ object TestDataGenerator {
                 setOf("tenant1", "tenant2"),
                 setOf("channel1", "channel2"),
                 setOf(
-                    ProvidedCapability("Capability1", version1, "Capability1 description"),
-                    ProvidedCapability("Capability2", version2, "Capability2 description"),
+                    ProvidedCapability("Capability1Id", "Capability1", version1, "Capability1 description"),
+                    ProvidedCapability("Capability2Id", "Capability2", version2, "Capability2 description"),
                 ),
             )
         agentResource.spec = agentSpec

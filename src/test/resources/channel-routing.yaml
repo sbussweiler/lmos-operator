@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-apiVersion: "lmos.eclipse/v1"
+apiVersion: "lmos.eclipse/v2"
 kind: "ChannelRouting"
 metadata:
   creationTimestamp: "2024-07-23T13:15:25.489340700Z"
@@ -17,7 +17,7 @@ metadata:
   name: "acme-web-stable"
   namespace: "default"
   ownerReferences:
-    - apiVersion: "lmos.eclipse/v1"
+    - apiVersion: "lmos.eclipse/v2"
       kind: "Channel"
       name: "acme-web-stable"
       uid: "00000000-0000-0000-0000-000000000055"
@@ -25,7 +25,8 @@ metadata:
   uid: "00000000-0000-0000-0000-000000000062"
 spec:
   capabilityGroups:
-    - name: "billing-agent"
+    - id: "billing-agent-id"
+      name: "billing-agent"
       description: "This is the billing agent description"
       capabilities:
         - id: "view-bill"
@@ -40,7 +41,8 @@ spec:
           providedVersion: "1.1.0"
           description: "Capability to download a bill"
           host: "billing-agent-stable.svc.cluster.local"
-    - name: "contract-agent"
+    - id: "contract-agent-id"
+      name: "contract-agent"
       description: "This is the contract agent description"
       capabilities:
         - id: "view-contract"

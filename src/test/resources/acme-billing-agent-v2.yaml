@@ -23,7 +23,9 @@ spec:
       name: view-bill
       version: 1.0.0
       description: Capability to view a bill
+      examples: []
     - id: download-bill
       name: download-bill
       version: 1.2.0
       description: Capability to download a bill
+      examples: []
