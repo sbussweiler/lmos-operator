@@ -30,8 +30,8 @@ lmos:
         host: ${EMBEDDING_STORE_HOST:localhost}
         port: ${EMBEDDING_STORE_PORT:6334}
       model:
-        provider: openai
-        base-url: ${EMBEDDING_MODEL_OPENAI_BASE_URL:https://api.openai.com/v1/embeddings}
+        provider: ${EMBEDDING_MODEL_PROVIDER:openai}
+        base-url: ${EMBEDDING_MODEL_BASE_URL:https://api.openai.com/v1/embeddings}
 
 logging:
   level:
