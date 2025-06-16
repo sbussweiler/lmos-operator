@@ -47,7 +47,7 @@ license {
 fun getProperty(propertyName: String) = System.getenv(propertyName) ?: project.findProperty(propertyName) as String
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
 
     pom {
