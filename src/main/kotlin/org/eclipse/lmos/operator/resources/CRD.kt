@@ -22,7 +22,7 @@ import org.eclipse.lmos.operator.resolver.ResolveStrategy
 import org.eclipse.lmos.operator.resolver.Wire
 
 @Group("lmos.eclipse")
-@Version("v1")
+@Version("v2")
 @Plural("agents")
 @Singular("agent")
 @Kind("Agent")
@@ -32,28 +32,36 @@ class AgentResource :
     Namespaced
 
 data class AgentSpec(
+    var id: String = "",
+    var description: String = "",
     var supportedTenants: Set<String> = emptySet(),
     var supportedChannels: Set<String> = emptySet(),
     var providedCapabilities: Set<ProvidedCapability> = emptySet(),
-    var description: String = "",
 )
 
 sealed class Capability {
+    abstract var id: String
     abstract var name: String
     abstract var version: String
 }
 
 data class ProvidedCapability(
+    @JsonPropertyDescription("The id of the capability")
+    @Required
+    override var id: String,
     @JsonPropertyDescription("The name of the capability")
     @Required
     override var name: String,
     @Required
     override var version: String,
+    @Required
     var description: String = "",
+    @Required
+    var examples: List<String> = emptyList(),
 ) : Capability()
 
 @Group("lmos.eclipse")
-@Version("v1")
+@Version("v2")
 @Plural("channels")
 @Singular("channel")
 @Kind("Channel")
@@ -68,6 +76,9 @@ enum class ResolveStatus {
 }
 
 data class RequiredCapability(
+    @JsonPropertyDescription("The id of the capability")
+    @Required
+    override var id: String,
     @JsonPropertyDescription("The name of the capability")
     @Required
     override var name: String,
@@ -89,7 +100,7 @@ data class ChannelSpec(
 )
 
 @Group("lmos.eclipse")
-@Version("v1")
+@Version("v2")
 @Plural("channelrollouts")
 @Singular("channelrollout")
 @Kind("ChannelRollout")
@@ -122,7 +133,7 @@ data class ChannelRolloutSpec(
 )
 
 @Group("lmos.eclipse")
-@Version("v1")
+@Version("v2")
 @Plural("channelroutings")
 @Singular("channelrouting")
 @Kind("ChannelRouting")
@@ -143,6 +154,8 @@ data class ChannelRoutingStatus(
 
 data class CapabilityGroup(
     @Required
+    var id: String,
+    @Required
     var name: String,
     @Required
     var capabilities: Set<ChannelRoutingCapability>,
@@ -150,6 +163,8 @@ data class CapabilityGroup(
 )
 
 data class ChannelRoutingCapability(
+    @Required
+    var id: String,
     @Required
     var name: String,
     @Required
@@ -161,6 +176,7 @@ data class ChannelRoutingCapability(
     var description: String = "",
 ) {
     constructor(wire: Wire<AgentResource>) : this(
+        id = wire.providedCapability.id,
         name = wire.providedCapability.name,
         requiredVersion = wire.requiredCapability.version,
         providedVersion = wire.providedCapability.version,

@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-apiVersion: lmos.eclipse/v1
+apiVersion: lmos.eclipse/v2
 kind: Channel
 metadata:
   name: globex-web-stable
@@ -15,5 +15,6 @@ metadata:
     subset: stable
 spec:
   requiredCapabilities:
-    - name: view-bill
+    - id: view-bill
+      name: view-bill
       version: "1.0.0"

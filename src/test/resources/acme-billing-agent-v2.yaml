@@ -4,13 +4,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-apiVersion: lmos.eclipse/v1
+apiVersion: lmos.eclipse/v2
 kind: Agent
 metadata:
   name: billing-agent-stable
   labels:
     version: "1.1.0"
 spec:
+  id: billing-agent-stable
   description: This is the billing agent description
   supportedTenants:
     - acme
@@ -18,9 +19,13 @@ spec:
     - web
     - ivr
   providedCapabilities:
-    - name: view-bill
+    - id: view-bill
+      name: view-bill
       version: 1.0.0
       description: Capability to view a bill
-    - name: download-bill
+      examples: []
+    - id: download-bill
+      name: download-bill
       version: 1.2.0
       description: Capability to download a bill
+      examples: []
