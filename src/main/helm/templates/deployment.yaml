@@ -43,6 +43,13 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "logformat-json"
           {{- end }}
+          {{- if eq .Values.embedding.enabled true }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "lmos-operator.fullname" . }}-config
+            - secretRef:
+                name: {{ include "lmos-operator.fullname" . }}-secret
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
