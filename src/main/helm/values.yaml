@@ -135,3 +135,12 @@ customResources:
 # The namespaces from where clients are calling the lmos operator
 clientNamespaces:
   - default
+
+embedding:
+  enabled: false
+  store:
+    host: "your-embedding-store-url"
+    port: 6334
+  model:
+    provider: "openai"
+    baseUrl: "your-model-base-url"
