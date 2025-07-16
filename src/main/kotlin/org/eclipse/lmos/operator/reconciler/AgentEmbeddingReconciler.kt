@@ -44,8 +44,11 @@ class AgentEmbeddingReconciler(
             try {
                 embeddingHandler.ingest(context, agent)
             } catch (e: Exception) {
-                log.error("Failed to ingest embeddings for agent '${agent.id}' " +
-                    "(tenant: '${context.tenantId}', channel: '${context.channelId}').", e)
+                log.error(
+                    "Failed to ingest embeddings for agent '${agent.id}' " +
+                        "(tenant: '${context.tenantId}', channel: '${context.channelId}').",
+                    e,
+                )
             }
         }
         return UpdateControl.noUpdate()
@@ -59,14 +62,17 @@ class AgentEmbeddingReconciler(
             try {
                 embeddingHandler.remove(context, agent)
             } catch (e: Exception) {
-                log.error("Failed to remove embeddings for agent '${agent.id}' " +
-                    "(tenant: '${context.tenantId}', channel: '${context.channelId}').", e)
+                log.error(
+                    "Failed to remove embeddings for agent '${agent.id}' " +
+                        "(tenant: '${context.tenantId}', channel: '${context.channelId}').",
+                    e,
+                )
             }
         }
         return DeleteControl.defaultDelete()
     }
 
-    private fun AgentResource.convert(): Map<SystemContext, Agent>  {
+    private fun AgentResource.convert(): Map<SystemContext, Agent> {
         val systemContexts = generateSystemContexts(this.spec.supportedTenants, spec.supportedChannels)
         return systemContexts.associateWith {
             Agent(this.spec.id, this.spec.providedCapabilities.map { Capability(it.name, it.description, it.examples) })
@@ -75,12 +81,11 @@ class AgentEmbeddingReconciler(
 
     fun generateSystemContexts(
         tenants: Set<String>,
-        channels: Set<String>
-    ): List<SystemContext> {
-        return tenants.flatMap { tenant ->
+        channels: Set<String>,
+    ): List<SystemContext> =
+        tenants.flatMap { tenant ->
             channels.map { channel ->
                 SystemContext(tenant, channel)
             }
         }
-    }
 }
