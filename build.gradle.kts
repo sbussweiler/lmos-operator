@@ -182,12 +182,13 @@ repositories {
 }
 
 dependencies {
+    val operatorFrameworkVersion = "2.1.20"
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("io.javaoperatorsdk:operator-framework-spring-boot-starter:5.6.0")
+    implementation("io.javaoperatorsdk:operator-framework-spring-boot-starter:$operatorFrameworkVersion")
     implementation("io.fabric8:generator-annotations:7.3.1")
 
     implementation("net.logstash.logback:logstash-logback-encoder:8.1")
@@ -196,7 +197,7 @@ dependencies {
 
     implementation("org.semver4j:semver4j:6.0.0")
 
-    testImplementation("io.javaoperatorsdk:operator-framework-spring-boot-starter-test:5.6.0") {
+    testImplementation("io.javaoperatorsdk:operator-framework-spring-boot-starter-test:$operatorFrameworkVersion") {
         exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")
     }
 
