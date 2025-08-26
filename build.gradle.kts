@@ -182,7 +182,7 @@ repositories {
 }
 
 dependencies {
-    val operatorFrameworkVersion = "2.1.20"
+    val operatorFrameworkVersion = "5.6.0"
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
