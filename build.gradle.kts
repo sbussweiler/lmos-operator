@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import com.vanniktech.maven.publish.SonatypeHost
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import java.lang.System.getenv
 import java.net.URI
@@ -20,7 +19,7 @@ plugins {
     id("com.citi.helm") version "2.2.0"
     id("com.citi.helm-publish") version "2.2.0"
     id("net.researchgate.release") version "3.1.0"
-    id("com.vanniktech.maven.publish") version "0.32.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
 }
@@ -47,7 +46,7 @@ license {
 fun getProperty(propertyName: String) = System.getenv(propertyName) ?: project.findProperty(propertyName) as String
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
 
     pom {
