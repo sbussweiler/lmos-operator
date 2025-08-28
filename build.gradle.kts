@@ -200,6 +200,7 @@ dependencies {
         exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")
     }
 
+    implementation("org.eclipse.lmos:lmos-classifier-vector-spring-boot-starter:0.7.0")
     implementation("io.fabric8", "generator-annotations", "7.3.1")
     kapt("io.fabric8", "crd-generator-apt", "6.13.4")
 
@@ -213,6 +214,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:k3s:1.21.3")
     testImplementation("org.bouncycastle:bcpkix-jdk15on:1.70")
+    testImplementation("io.mockk:mockk:1.14.5")
 }
 
 tasks.withType<Test> {
