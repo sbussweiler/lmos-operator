@@ -11,6 +11,20 @@ spec:
     {{- range $namespace := .Values.clientNamespaces }}
     - match:
         - sourceNamespace: {{ $namespace | quote}}
+          headers:
+            x-subset: {}
+      route:
+        - weight: 100
+          destination:
+            host: {{ include "lmos-operator.fullname" $ }}.{{ $.Release.Namespace }}.svc.cluster.local
+            port:
+              number: 8080
+          headers:
+            request:
+              set:
+                x-namespace: {{ $namespace | quote }}
+    - match:
+        - sourceNamespace: {{ $namespace | quote}}
       route:
         - weight: 100
           destination:
