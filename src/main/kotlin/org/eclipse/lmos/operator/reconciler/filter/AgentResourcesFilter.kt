@@ -6,6 +6,8 @@
 
 package org.eclipse.lmos.operator.reconciler.filter
 
+import org.eclipse.lmos.operator.DEPLOYMENT_SUBSET_LABEL_DEFAULT_VALUE
+import org.eclipse.lmos.operator.DEPLOYMENT_SUBSET_LABEL_KEY
 import org.eclipse.lmos.operator.resources.AgentResource
 import org.eclipse.lmos.operator.resources.ChannelResource
 import java.util.function.Predicate
@@ -21,6 +23,12 @@ class AgentResourcesFilter(
     }
 
     override fun test(agentResource: AgentResource): Boolean {
+        val channelSubset = labels[DEPLOYMENT_SUBSET_LABEL_KEY] ?: DEPLOYMENT_SUBSET_LABEL_DEFAULT_VALUE
+        val agentSubset = agentResource.metadata.labels[DEPLOYMENT_SUBSET_LABEL_KEY] ?: DEPLOYMENT_SUBSET_LABEL_DEFAULT_VALUE
+        if (channelSubset != agentSubset) {
+            return false
+        }
+
         val supportedTenants = agentResource.spec?.supportedTenants
         val tenantMatches =
             supportedTenants.isNullOrEmpty() ||
