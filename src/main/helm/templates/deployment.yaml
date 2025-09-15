@@ -43,6 +43,9 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "logformat-json"
           {{- end }}
+          {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- if eq .Values.embeddingEnabled true }}
           envFrom:
             - configMapRef:

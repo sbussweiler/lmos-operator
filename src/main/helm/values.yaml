@@ -146,3 +146,6 @@ embeddingStoreTlsEnabled: false
 # If set to false, a secret named <secretName> must be available in the cluster.
 # If set to true, a secret named <secretName> will be created.
 createSecret: false
+
+# Environment variables to pass to Deployments
+env: []
