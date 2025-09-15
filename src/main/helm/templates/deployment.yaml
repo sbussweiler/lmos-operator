@@ -33,6 +33,21 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
+        {{- if .Values.istio.enabled | default true }}
+        - name: istio-proxy
+          image: auto
+          ports:
+            - containerPort: 15020
+              name: http-istio-prm
+              protocol: TCP
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/bash
+                  - "-c"
+                  - while curl --fail -s -o /dev/null -X GET http://127.0.0.1:9090/health/liveness; do echo "wait for application container shutdown..." > /proc/1/fd/1 && sleep 5; done; echo "Terminating..." > /proc/1/fd/1; sleep 10
+        {{- end }}
         - name: "lmos-operator"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

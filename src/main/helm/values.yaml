@@ -149,3 +149,7 @@ createSecret: false
 
 # Environment variables to pass to Deployments
 env: []
+
+# If istio is enabled, preset default values for istio sidecar injection.
+istio:
+  enabled: true
