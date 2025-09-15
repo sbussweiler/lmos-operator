@@ -43,15 +43,14 @@ logging:
     org:
       springframework: WARN
       apache: WARN
+      eclipse:
+        lmos:
+          operator:
+            OperatorApplicationKt: WARN
     io:
       javaoperatorsdk:
         operator:
           Operator: WARN
-    ai:
-      ancf:
-        lmos:
-          operator:
-            OperatorApplicationKt: WARN
     sun:
       rmi: ERROR
 
@@ -73,3 +72,11 @@ management:
     metrics:
       export:
         enabled: true
+  metrics:
+    distribution:
+      percentiles_histogram:
+        http:
+          server:
+            requests: true
+          client:
+            requests: true
